@@ -1,0 +1,162 @@
+set nocompatible 	" be iMproved
+filetype off 		" For vundle
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Good looking bottom :)
+Plugin 'bling/vim-airline'
+
+Plugin 'gmarik/Vundle.vim'
+
+" Ctrl+P plugin (snap open)
+Plugin 'kien/ctrlp.vim'
+
+" " Fugitive
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'slim-template/vim-slim'
+Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'vim-ruby/vim-ruby'
+
+"The NERD tree allows you to explore your filesystem and to open files and
+"directories. It presents the filesystem to you in the form of a tree which
+"you manipulate with the keyboard and/or mouse. It also allows you to perform
+"simple filesystem operations.
+Plugin 'scrooloose/nerdtree'
+
+"This is a simple plugin that helps to end certain structures automatically.
+Plugin 'tpope/vim-endwise'
+
+"Supertab is a vim plugin which allows you to use <Tab> for all your insert
+"completion needs (:help ins-completion).
+Plugin 'ervandew/supertab'
+
+"nsert or delete brackets, parens, quotes in pair.
+Plugin 'vim-scripts/Auto-Pairs'
+
+"An extensible & universal comment vim-plugin that also handles embedded
+"filetypes
+Plugin 'tomtom/tcomment_vim'
+
+"Defaults everyone can agree on
+Plugin 'tpope/vim-sensible'
+
+"The ultimate snippet solution for Vim.
+Plugin 'SirVer/ultisnips'
+
+"Easy text exchange operator for Vim.
+Plugin 'tommcdo/vim-exchange'
+
+"Vim script for text filtering and alignment
+Plugin 'godlygeek/tabular'
+
+"lean & mean status/tabline for vim that's light as air
+Plugin 'airblade/vim-gitgutter'
+
+" The Vim RuboCop plugin runs RuboCop and displays the results in Vim
+Plugin 'ngmy/vim-rubocop'
+
+" coffeescript
+Plugin 'kchmck/vim-coffee-script'
+
+" Check syntaxis errors live
+Plugin 'scrooloose/syntastic'
+
+call vundle#end()            " required
+
+" ctrlp ignore some folders
+let g:ctrlp_custom_ignore = '\v[\/](\.(git|hg|svn)|logs|node_modules|bower_modules|vendor)$'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+"put snips on dotfile folder
+"let g:UltiSnipsSnippetsDir="~/.dotfiles/vim/snips"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+augroup myfiletypes
+" Clear old autocmds in group
+autocmd!
+" autoindent with two spaces, always expand tabs
+autocmd FileType javascript,html,ruby,eruby,yaml,markdown set ai sw=2 sts=2 et
+augroup END
+" ================
+" Syntax highlighting and theme
+syntax enable
+" Configs to make Molokai look great
+set background=dark
+let g:rehash256=1
+set t_Co=256
+" colorscheme solarized
+" Show trailing whitespace and spaces before a tab:
+:highlight ExtraWhitespace ctermbg=red guibg=red
+:autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\\t/
+" Lovely linenumbers
+set nu
+
+" let g:airline_theme='luna'
+let g:airline_powerline_fonts=1
+set laststatus=2
+
+" Mappings
+map <Esc><Esc> :q <CR>
+map <F2> :NERDTree <CR>
+"map <F3> :!clear && grep -nr
+"map <F4> :!rspec --color <CR>
+map <F5> :w <CR>
+map <F6> :Gstatus <CR>
+map <F8> Ibinding.pry<CR><Esc>
+let mapleader=','
+map <Space> /
+map ñ :
+" Select all text
+nmap <C-a> ggVG
+
+" Syntastic configuration
+let g:syntastic_ruby_checkers = ['rubocop']
+
+" Add brackets, parens and quotes arround a word
+vmap ( I(<Esc>lxgvlA)<Esc>
+vmap [ I[<Esc>lxgvlA]<Esc>
+vmap { I{<Esc>lxgvlA}<Esc>
+vmap " I"<Esc>lxgvlA"<Esc>
+
+" Mapping for plugin to tabularize
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
+
+"Move between windows using alt + arrow
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
+
+"porque estoy cansado de escribir <F5> y borrar
+imap <F5> <Esc><F5>
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <C-O>:update<CR>
+
+" Move a selected line up and down
+noremap <silent> <C-K> :m -2 <CR>
+noremap <silent> <C-J> :m +1 <CR>
+
+vmap <silent> <C-K> :m -2 <CR>
+vmap <silent> <C-J> :m +2 <CR>
+
+" Move between windows
+nmap <C-H> <C-W>h
+nmap <C-J> <C-W>j
+nmap <C-K> <C-W>k
+nmap <C-L> <C-W>l
+
+" Move a line or selected lines one position up or down
+nnoremap <C-Down> :m .+1<CR>==
+nnoremap <C-Up> :m .-2<CR>==
+vnoremap <C-Down> :m '>+1<CR>gv=gv
+vnoremap <C-Up> :m '<-2<CR>gv=gv
